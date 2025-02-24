@@ -1,0 +1,14 @@
+services:
+  router-api:
+    build: 
+      context: .
+    expose:
+      - "7777"
+    ports:
+      - 7777:3000
+    environment:
+      PORT: 3000
+      DATABASE_FILE: ./data/db.json
+    volumes:
+      - ./data:/data:rw
+      - ./webhook:/webhook:rw

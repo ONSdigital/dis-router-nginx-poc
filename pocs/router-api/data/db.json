@@ -1,0 +1,34 @@
+{
+  "redirects": [
+    {
+      "id": "1",
+      "from": "/origin/sausages",
+      "to": "/destination/sausages"
+    },
+    {
+      "id": "2",
+      "from": "/origin/tiffin",
+      "to": "/destination/tiffin"
+    },
+    {
+      "id": "3",
+      "from": "/origin/muffins",
+      "to": "/destination/muffins"
+    },
+    {
+      "id": "4",
+      "from": "/origin/doughnuts",
+      "to": "/destination/doughnuts"
+    },
+    {
+      "id": "5",
+      "from": "/origin/pickles",
+      "to": "/destination/pickles"
+    },
+    {
+      "id": "6",
+      "from": "/origin/pasta",
+      "to": "/destination/pasta"
+    }
+  ]
+}

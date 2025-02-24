@@ -1,0 +1,20 @@
+name: openresty-poc
+services:
+  router:
+    build: 
+      context: .
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./nginx
+          target: /usr/local/openresty/nginx
+    ports:
+      - '8080:80'
+  http-echo:
+    extends:
+      file: ../../manifests/http-echo.yml
+      service: http-echo
+  router-api:
+    extends:
+      file: ../router-api/manifest.yml
+      service: router-api
