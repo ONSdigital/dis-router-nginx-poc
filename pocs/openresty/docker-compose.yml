@@ -14,6 +14,9 @@ services:
     extends:
       file: ../../manifests/http-echo.yml
       service: http-echo
+    command: ["-text", "request has been proxied"]
+    ports:
+      - 15678:5678
   router-api:
     extends:
       file: ../router-api/manifest.yml

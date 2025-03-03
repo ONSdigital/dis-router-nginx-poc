@@ -2,6 +2,3 @@ services:
   http-echo:
     platform: linux/amd64
     image: hashicorp/http-echo:alpine
-    command: ["-text", "request has been proxied"]
-    ports:
-      - 15678:5678
