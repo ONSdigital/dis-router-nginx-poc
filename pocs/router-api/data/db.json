@@ -29,6 +29,28 @@
       "id": "6",
       "from": "/origin/pasta",
       "to": "/destination/pasta"
+    },
+    {
+      "id": "9efe",
+      "from": "/origin/soup",
+      "to": "/destination/soup"
+    }
+  ],
+  "routes": [
+    {
+      "id": "1",
+      "path": "/sausages",
+      "service": "http-echo-server-1:5678"
+    },
+    {
+      "id": "2",
+      "path": "/bacon",
+      "service": "http-echo-server-2:5678"
+    },
+    {
+      "id": 3,
+      "path": "/soup",
+      "service": "http-echo-server-1:5678"
     }
   ]
 }
