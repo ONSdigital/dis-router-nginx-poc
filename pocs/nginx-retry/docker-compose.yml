@@ -1,0 +1,28 @@
+name: nginx-retry-poc
+services:
+  router:
+    build: .
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./nginx/nginx.conf
+          target: /etc/nginx/nginx.conf
+    ports:
+      - '8080:80'
+    depends_on:
+      - server-not-found
+      - http-echo-server-found
+  server-not-found:
+    build: ./not-found-server
+    environment:
+      - "PORT=5000"
+    ports:
+      - 15678:5000
+  http-echo-server-found:
+    extends:
+      file: ../../manifests/http-echo.yml
+      service: http-echo
+    command: ["-text", "request has been proxied to http-echo-server-found"]
+    ports:
+      - 15679:5678
+

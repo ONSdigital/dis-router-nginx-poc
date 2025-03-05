@@ -86,6 +86,18 @@ Requests to be proxied / redirected can be send to localhost:8080/${path}
 
 This service will accept wildcard routing inside the `from` directive for redirects or the `path` directive for path based routing.
 
+#### Nginx with retry
+
+This POC runs:
+
+- nginx as proxy
+- http-echo server for successful requests
+- not-found-server for 404s
+
+If you request `/business` it will be returned not found by the `not-found-server` and then proxy the request through to the http-echo server.
+
+If you request `/economy/*` the request will be returned by the `not-found-server`.
+
 ## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.
