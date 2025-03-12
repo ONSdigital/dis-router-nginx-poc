@@ -98,6 +98,51 @@ If you request `/business` it will be returned not found by the `not-found-serve
 
 If you request `/economy/*` the request will be returned by the `not-found-server`.
 
+#### Redis
+
+This POC combines several of the above concepts as well as that looked at by dis-routing-go-poc
+
+This [POC](./redis) runs:
+
+- nginx as initial proxy
+- http-echo server to represent legacy (babbage)
+- not-found-server to represent new service (wagtail)
+- redirector as a redirecting service for legacy
+- redirect-api as an api to interact with redis
+- redis for configuration storage
+
+The command to run is:
+
+```sh
+    make watch
+```
+
+On initial setup you can do the following on localhost:8080 (nginx):
+
+- `/consumer-price-inflation/bulletin` -> wagtail (proxied by nginx)
+- `/economy/cpi/bulletin` -> babbage (proxied by nginx and the redirector)
+- `/releases/babbagerelease` -> babbage (proxied by nginx and the redirector)[^1]
+- `/releases/wagtailrelease` -> wagtail (proxied by nginx)
+
+[^1]: For paths in `/releases/` nginx will try wagtail first to see if it has a page, then try the redirector for proxying onwards.
+
+The redirector will evaluate if there is a redirect that matches the path provided. If it matches it will redirect, otherwise proxy onwards.
+
+To create a new redirect you can:
+
+```json
+    // POST http://localhost:3003/redirects
+    [
+        {
+            "path": "/economy/cpi/bulletin",
+            "redirect": "/consumer-price-inflation/bulletin",
+            "type": "permenant"
+        }
+    ]
+```
+
+Now when you request `/economy/cpi/bulletin` it will redirect to `/consumer-price-inflation/bulletin`
+
 ## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.

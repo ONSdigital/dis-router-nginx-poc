@@ -1,0 +1,79 @@
+name: redis-poc
+services:
+  nginx:
+    build: ./nginx
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./nginx/nginx.conf
+          target: /etc/nginx/nginx.conf
+    ports:
+      - '8080:80'
+    depends_on:
+      - redirector
+  redirector:
+    build: 
+      context: ./redirector
+    command:
+      - go
+      - run
+      - main.go
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./redirector
+          target: /redirector
+    ports:
+      - '3000:3000'
+    depends_on:
+      - redis
+  fakewagtail:
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./not-found-server
+          target: /app
+          ignore:
+            - node_modules/
+    build: ./not-found-server
+    environment:
+      - "PORT=3001"
+    ports:
+      - 3001:3001
+  fakebabbage:
+    extends:
+      file: ../../manifests/http-echo.yml
+      service: http-echo
+    command:
+      - -text
+      - request has been proxied to fake babbage
+      - -listen
+      - ":3002"
+    ports:
+      - 3002:3002
+  redirect-api:
+    build: 
+      context: ./redirect-api
+    command:
+      - go
+      - run
+      - main.go
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./redirect-api
+          target: /redirect-api
+    ports:
+      - '3003:3003'
+    depends_on:
+      - redis
+  redis:
+    extends:
+      file: ../../manifests/redis.yml
+      service: redis
+    volumes:
+      - cache:/data
+volumes:
+  cache:
+    driver: local
+
