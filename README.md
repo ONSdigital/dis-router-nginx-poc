@@ -1,5 +1,11 @@
 # dis-router-nginx-poc
 
+---
+
+:warning: This repository was archived in May 2025 and is no longer in development. :warning:
+
+---
+
 Several POCS for exploring the concept of an NGINX router configured from an external source
 
 ## Getting started
